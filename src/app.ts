@@ -1,16 +1,28 @@
-import express, { Express } from "express"
-import { DateTime } from "luxon"
+import express, { Express } from "express";
+import { DB } from "./db";
+import routes from "./routes"
 
-const app: Express = express()
-const port = process.env.PORT || 8080
-const { body, validationResult } = require("express-validator")
+DB()
+    .then(() => {
+        console.log("Data Source has been initialized!");
+    })
+    .catch((err) => {
+        console.error("Error during Data Source initialization", err);
+    });
 
-app.use(express.json())
+const app: Express = express();
+const port = process.env.PORT || 8080;
+
+app.use(express.json());
 
 app.get("/", (req, res) => {
-    res.send("ok")
+    res.send("ok");
+});
+
+routes.map((r) => {
+    app.use("/api", r)
 })
 
 app.listen(port, () => {
-    console.log(`Server is running at http://localhost:${port}`)
-})
+    console.log(`Server is running at http://localhost:${port}`);
+});
