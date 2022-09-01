@@ -1,6 +1,6 @@
 import express, { Express } from "express";
 import { DB } from "./db";
-import routes from "./routes"
+import routes from "./routes";
 
 DB()
     .then(() => {
@@ -20,8 +20,8 @@ app.get("/", (req, res) => {
 });
 
 routes.map((r) => {
-    app.use("/api", r)
-})
+    app.use("/api", r);
+});
 
 app.listen(port, () => {
     console.log(`Server is running at http://localhost:${port}`);
