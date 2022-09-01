@@ -1,4 +1,4 @@
-import { User, Crypto } from "./entities/";
+import { User, Coin, Portfolio } from "./entities";
 import { DataSource } from "typeorm";
 require("dotenv").config();
 
@@ -11,7 +11,7 @@ const AppDataSource = new DataSource({
     database: process.env.DATABASE_NAME!,
     synchronize: true,
     logging: false,
-    entities: [User, Crypto],
+    entities: [User, Coin, Portfolio],
     subscribers: [],
     migrations: [],
 });
