@@ -7,12 +7,15 @@ import {
 } from "typeorm";
 
 @Entity()
-export class Crypto {
+export class Coin {
     @PrimaryColumn()
     id!: string;
 
-    @Column({ type: "decimal" })
-    quantity!: number;
+    @Column()
+    symbol!: string;
+
+    @Column()
+    name!: string;
 
     @CreateDateColumn()
     createDate?: Date;

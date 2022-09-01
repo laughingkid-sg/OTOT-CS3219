@@ -2,16 +2,15 @@ import {
     Column,
     CreateDateColumn,
     Entity,
-    JoinTable,
-    ManyToMany,
+    OneToMany,
     PrimaryColumn,
     UpdateDateColumn,
 } from "typeorm";
-import { Crypto } from "./";
+import { Portfolio } from ".";
 
 enum Role {
-    Admin,
-    User,
+    ADMIN,
+    STANDARD_USER,
 }
 
 @Entity()
@@ -22,12 +21,11 @@ export class User {
     @Column()
     password!: string;
 
-    @Column({default: 1})
-    role?: Role
+    @Column({ default: 1 })
+    role?: Role;
 
-    @ManyToMany(() => Crypto)
-    @JoinTable()
-    cryptos?: Crypto[];
+    @OneToMany(() => Portfolio, (portfolio) => portfolio.user)
+    portfolios?: Portfolio[];
 
     @CreateDateColumn()
     createDate?: Date;

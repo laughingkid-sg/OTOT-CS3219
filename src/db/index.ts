@@ -1,4 +1,4 @@
-import { User, Crypto } from './entities/';
+import { User, Crypto } from "./entities/";
 import { DataSource } from "typeorm";
 require("dotenv").config();
 
@@ -20,11 +20,7 @@ const DB = async () => {
     return AppDataSource.initialize();
 };
 
-const userRepo = () => (AppDataSource.getRepository(User));
+const userRepo = () => AppDataSource.getRepository(User);
 
-export { DB, AppDataSource, userRepo};
+export { DB, AppDataSource, userRepo };
 export * from "./entities/index";
-
-
-
-
