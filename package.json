@@ -1,0 +1,21 @@
+{
+    "name": "otot-cs3219",
+    "description": "CS3219 Task B/C: Web Application Task",
+    "scripts": {
+        "prettier": "npx prettier --write .",
+        "backend-dev": "cd backend && npm run dev"
+    },
+    "devDependencies": {
+        "prettier": "^2.7.1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/laughingkid-sg/OTOT-CS3219.git"
+    },
+    "author": "Goh Zheng Teck",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/laughingkid-sg/OTOT-CS3219/issues"
+    },
+    "homepage": "https://github.com/laughingkid-sg/OTOT-CS3219#readme"
+}
