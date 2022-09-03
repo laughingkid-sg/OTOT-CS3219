@@ -1,4 +1,5 @@
-import { Request, Response } from "express";
+
+import { Request, Response, NextFunction } from "express";
 import { createUser, getPasswordHash } from "../db/handlers/User";
 import { comparePassword, hashPassword } from "../utilis";
 import jwt from "jsonwebtoken"
@@ -26,7 +27,7 @@ const login = async (req: Request, res: Response) => {
     if (result) {
         const token = jwt.sign({
             data: email
-          }, process.env.SECRET!, { expiresIn: '1h' });
+        }, process.env.SECRET!, { expiresIn: '1h' });
         return res.status(200).json(token);
     } else {
         return res.status(401).send();
@@ -34,5 +35,23 @@ const login = async (req: Request, res: Response) => {
     
 }
 
+const authorisation = (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const token = req.headers.authorization;
 
-export { register, login };
+        if (!token) {
+            return res.status(401).send();
+        }
+
+        if (token.split(" ")[0] === "Basic" && token.split(" ")[1] === process.env.BASIC_AUTH) {
+            req.body.email = `demo@cs3219.com`;
+            next();
+        } else {
+            return res.status(401).send();
+        }
+    } catch {
+        return res.status(500).send();
+    }
+};
+
+export { authorisation, register, login };

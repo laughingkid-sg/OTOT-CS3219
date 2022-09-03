@@ -2,9 +2,11 @@ import {
     Column,
     CreateDateColumn,
     Entity,
+    OneToMany,
     PrimaryColumn,
     UpdateDateColumn,
 } from "typeorm";
+import { Portfolio } from ".";
 
 @Entity()
 export class Coin {
@@ -16,6 +18,9 @@ export class Coin {
 
     @Column()
     name!: string;
+
+    @OneToMany(() => Portfolio, (portfolios) => portfolios.coin)
+    portfolios?: Portfolio[];
 
     @CreateDateColumn()
     createDate?: Date;

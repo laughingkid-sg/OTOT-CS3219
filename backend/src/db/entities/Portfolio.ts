@@ -2,8 +2,6 @@ import {
     Column,
     CreateDateColumn,
     Entity,
-    JoinTable,
-    ManyToMany,
     ManyToOne,
     PrimaryGeneratedColumn,
     UpdateDateColumn,
@@ -12,21 +10,20 @@ import { Coin, User } from ".";
 
 @Entity()
 export class Portfolio {
-    @PrimaryGeneratedColumn()
-    id!: string;
+    @PrimaryGeneratedColumn("uuid")
+    id?: string;
 
     @Column()
     purchasePrice!: number;
 
-    @Column({ type: "decimal" })
+    @Column({ type: "decimal", precision: 38, scale: 18 })
     quantity!: number;
 
     @ManyToOne(() => User, (user) => user.portfolios)
     user!: User;
 
-    @ManyToMany(() => Coin)
-    @JoinTable()
-    coins?: Coin[];
+    @ManyToOne(() => Coin, (coin) => coin.portfolios)
+    coin!: Coin;
 
     @CreateDateColumn()
     createDate?: Date;

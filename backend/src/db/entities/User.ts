@@ -10,6 +10,7 @@ import { Portfolio } from ".";
 
 enum Role {
     ADMIN,
+    DEMO_USER,
     STANDARD_USER,
 }
 
@@ -21,7 +22,7 @@ export class User {
     @Column()
     password!: string;
 
-    @Column({ default: 1 })
+    @Column({ default: 2 })
     role?: Role;
 
     @OneToMany(() => Portfolio, (portfolio) => portfolio.user)

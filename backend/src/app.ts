@@ -1,4 +1,5 @@
 import express, { Express } from "express";
+import { authorisation } from "./controllers/auth";
 import { DB } from "./db";
 import routes from "./routes";
 
@@ -14,6 +15,7 @@ const app: Express = express();
 const port = process.env.PORT || 8080;
 
 app.use(express.json());
+app.use(authorisation);
 
 app.get("/", (req, res) => {
     res.send("ok");
