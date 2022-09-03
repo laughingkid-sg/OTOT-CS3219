@@ -2,7 +2,7 @@ import { User, Coin, Portfolio } from "./entities";
 import { DataSource } from "typeorm";
 require("dotenv").config();
 
-const AppDataSource = new DataSource({
+const ds = new DataSource({
     type: "mssql",
     host: process.env.DATABASE_DBHOST!,
     port: 1433,
@@ -17,10 +17,13 @@ const AppDataSource = new DataSource({
 });
 
 const DB = async () => {
-    return AppDataSource.initialize();
+    return ds.initialize();
 };
 
-const userRepo = () => AppDataSource.getRepository(User);
+const userRepo = () => ds.getRepository(User);
+const coinRepo = () => ds.getRepository(Coin);
+const portfolioRepo = () => ds.getRepository(Portfolio);
 
-export { DB, AppDataSource, userRepo };
+export { DB, ds, userRepo, coinRepo, portfolioRepo };
 export * from "./entities/index";
+export * from "./handlers/index";

@@ -4,7 +4,9 @@
     "description": "CS3219 Task B: Web Application Task",
     "main": "app.ts",
     "scripts": {
-        "dev": "nodemon"
+        "dev": "nodemon",
+        "build": "tsc",
+        "start": "node ./build/app.js"
     },
     "devDependencies": {
         "@types/bcrypt": "^5.0.0",
