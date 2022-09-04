@@ -21,7 +21,7 @@ const list = async (req: Request, res: Response) => {
 const add = async (req: Request, res: Response) => {
     try {
         const newPortfolio: QueryDeepPartialEntity<Portfolio> = {
-            purchasePrice: req.body.purchasePrice! / 100,
+            purchasePrice: req.body.purchasePrice!,
             quantity: req.body.quantity!,
             coin: req.body.coin!,
             user: {
@@ -42,7 +42,7 @@ const update = async (req: Request, res: Response) => {
         const id: string = req.body.id!;
 
         const updateData: QueryDeepPartialEntity<Portfolio> = {
-            purchasePrice: req.body.purchasePrice! / 100,
+            purchasePrice: req.body.purchasePrice!,
             quantity: req.body.quantity!,
             coin: req.body.coin!,
         };
