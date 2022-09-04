@@ -37,9 +37,11 @@ jobs:
                 BASIC_AUTH: ${{ secrets.BASIC_AUTH }}
                 BASIC_USERNAME: ${{ secrets.BASIC_USERNAME }}
                 BASIC_PASSWORD: ${{ secrets.BASIC_PASSWORD }}
-            - run: npm ci
-              working-directory: backend
-            - run: npm run build
-              working-directory: backend
-            - run: npm run test
-              working-directory: backend
+
+              - run: echo ${{ secrets.BASIC_USERNAME }}
+            # - run: npm ci
+            #   working-directory: backend
+            # - run: npm run build
+            #   working-directory: backend
+            # - run: npm run test
+            #   working-directory: backend
