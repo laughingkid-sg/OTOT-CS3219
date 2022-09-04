@@ -18,7 +18,8 @@ jobs:
 
     create-envfile:
 
-    runs-on: ubuntu-latest 
+    runs-on: ubuntu-latest
+    
     steps:
     - name: Make envfile
       uses: SpicyPizza/create-envfile@v1.3
