@@ -28,6 +28,15 @@ jobs:
               with:
                   node-version: 16
                   cache: "npm"
+              env:
+                DATABASE_DBHOST: ${{ secrets.DATABASE_DBHOST }}
+                DATABASE_USERNAME: ${{ secrets.DATABASE_USERNAME }}
+                DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD}}
+                DATABASE_NAME: ${{ secrets.DATABASE_NAME }}
+                SECRET: ${{ secrets.SECRET }}
+                BASIC_AUTH: ${{ secrets.BASIC_AUTH }}
+                BASIC_USERNAME: ${{ secrets.BASIC_USERNAME }}
+                BASIC_PASSWORD: ${{ secrets.BASIC_PASSWORD }}
             - run: npm ci
               working-directory: backend
             - run: npm run build
