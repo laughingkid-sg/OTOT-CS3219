@@ -26,7 +26,11 @@ const testData = {
 describe("Database", () => {
     describe("Await Connection to database", () => {
         it("should connect to database", (done) => {
-            ds.initialize().then(() => done());
+            if (ds.isInitialized) {
+                done()
+            } else {
+                ds.initialize().then(() => done());
+            }
         }).timeout(10000);
     });
 });
