@@ -13,6 +13,9 @@ on:
     # Allows you to run this workflow manually from the Actions tab
     workflow_dispatch:
 
+env:
+  WORKFLOW_VARIABLE: WORKFLOW
+
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
     # This workflow contains a single job called "build"
@@ -22,16 +25,25 @@ jobs:
 
         # Steps represent a sequence of tasks that will be executed as part of the job
         steps:
-              env:
-                DATABASE_DBHOST: ${{ secrets.DATABASE_DBHOST }}
-                DATABASE_USERNAME: ${{ secrets.DATABASE_USERNAME }}
-                DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD}}
-                DATABASE_NAME: ${{ secrets.DATABASE_NAME }}
-                SECRET: ${{ secrets.SECRET }}
-                BASIC_AUTH: ${{ secrets.BASIC_AUTH }}
-                BASIC_USERNAME: ${{ secrets.BASIC_USERNAME }}
-                BASIC_PASSWORD: ${{ secrets.BASIC_PASSWORD }}
-
-              
-              - run: echo "Test :${{ secrets.BASIC_USERNAME }}"
-
+            # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+            - uses: actions/checkout@v3
+            - uses: actions/setup-node@v3
+              with:
+                  node-version: 16
+                  cache: "npm"
+            - run: npm ci
+              working-directory: backend
+            - run: npm run build
+              working-directory: backend
+            - run: |
+                touch .env
+                echo	DATABASE_USERNAME=${{ secrets.DATABASE_USERNAME }} >> .env
+                echo	DATABASE_PASSWORD=${{ secrets.DATABASE_PASSWORD}}	>> .env
+                echo	DATABASE_NAME=${{ secrets.DATABASE_NAME }} >> .env
+                echo	SECRET=${{ secrets.SECRET }} >> .env
+                echo	BASIC_AUTH=${{ secrets.BASIC_AUTH }} >> .env
+                echo	BASIC_USERNAME=${{ secrets.BASIC_USERNAME }} >> .env
+                echo	BASIC_PASSWORD=${{ secrets.BASIC_PASSWORD }} >> .env
+              working-directory: backend
+            - run: npm run test
+              working-directory: backend
