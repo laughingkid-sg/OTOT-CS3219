@@ -31,7 +31,7 @@ describe("Database", () => {
             } else {
                 ds.initialize().then(() => done());
             }
-        }).timeout(10000);
+        }).timeout(30000);
     });
 });
 
