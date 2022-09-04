@@ -37,13 +37,13 @@ jobs:
               working-directory: backend
             - run: |
                 touch .env
-                echo	DATABASE_USERNAME=${{ secrets.DATABASE_USERNAME }} >> .env
-                echo	DATABASE_PASSWORD=${{ secrets.DATABASE_PASSWORD}}	>> .env
-                echo	DATABASE_NAME=${{ secrets.DATABASE_NAME }} >> .env
-                echo	SECRET=${{ secrets.SECRET }} >> .env
-                echo	BASIC_AUTH=${{ secrets.BASIC_AUTH }} >> .env
-                echo	BASIC_USERNAME=${{ secrets.BASIC_USERNAME }} >> .env
-                echo	BASIC_PASSWORD=${{ secrets.BASIC_PASSWORD }} >> .env
+                echo	DATABASE_USERNAME="${{ secrets.DATABASE_USERNAME }}" >> .env
+                echo	DATABASE_PASSWORD="${{ secrets.DATABASE_PASSWORD}}"	>> .env
+                echo	DATABASE_NAME="${{ secrets.DATABASE_NAME }}" >> .env
+                echo	SECRET="${{ secrets.SECRET }}" >> .env
+                echo	BASIC_AUTH="${{ secrets.BASIC_AUTH }}" >> .env
+                echo	BASIC_USERNAME="${{ secrets.BASIC_USERNAME }}" >> .env
+                echo	BASIC_PASSWORD="${{ secrets.BASIC_PASSWORD }}" >> .env
                 cat .env
               working-directory: backend
             - run: npm test
