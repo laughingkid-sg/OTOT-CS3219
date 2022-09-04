@@ -104,4 +104,4 @@ dist
 .tern-port
 
 serverless/local.settings.json
-backend/build
+build

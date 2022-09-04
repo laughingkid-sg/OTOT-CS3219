@@ -9,7 +9,7 @@ const { body } = require("express-validator");
 const pathname = "portfolio";
 
 router.post(
-    `/${pathname}/${add.name}`,
+    `/${pathname}`,
     body("quantity")
         .exists()
         .isFloat({ min: 0.000000000000000001, max: 10000 })
@@ -35,9 +35,9 @@ router.post(
     validationResultMiddleware,
     add,
 );
-router.get(`/${pathname}/${list.name}`, list);
+router.get(`/${pathname}`, list);
 router.put(
-    `/${pathname}/${update.name}`,
+    `/${pathname}`,
     body("id").not().isEmpty().trim().escape().isUUID().withMessage("Invalid portfolio record ID."),
     body("quantity")
         .exists()
@@ -65,7 +65,7 @@ router.put(
     update,
 );
 router.delete(
-    `/${pathname}/${remove.name}`,
+    `/${pathname}`,
     body("id").not().isEmpty().trim().escape().isUUID().withMessage("Invalid portfolio record ID."),
     remove,
 );

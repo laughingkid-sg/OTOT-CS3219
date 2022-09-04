@@ -5,6 +5,6 @@ const router = express.Router();
 
 const pathname = "coin";
 
-router.get(`/${pathname}/${list.name}`, list);
+router.get(`/${pathname}`, list);
 
 export default router;

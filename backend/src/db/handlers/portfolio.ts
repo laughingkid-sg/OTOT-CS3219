@@ -19,7 +19,7 @@ const getAllPortfolio = async (email: string) => {
         .innerJoinAndSelect("user.portfolios", "portfolios")
         .select(["user.email", "portfolios"])
         .where("user.email = :email", { email })
-        .getMany();
+        .getOne();
 
     return userPorfolio;
 };
