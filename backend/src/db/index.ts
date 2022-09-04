@@ -17,7 +17,11 @@ const ds = new DataSource({
 });
 
 const DB = async () => {
-    return ds.initialize();
+    if (!ds.isInitialized) {
+        return ds.initialize();
+    } else {
+        return ds;
+    }
 };
 
 const userRepo = () => ds.getRepository(User);
