@@ -16,27 +16,6 @@ on:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
 
-    create-envfile:
-
-        runs-on: ubuntu-latest
-        
-        steps:
-        - name: Make envfile
-          uses: SpicyPizza/create-envfile@v1.3
-          with:
-            envkey_DEBUG: false
-            envkey_SOME_API_KEY: "123456abcdef"
-            envkey_DATABASE_DBHOST: ${{ secrets.DB_HOST }}
-            envkey_DATABASE_USERNAME: ${{ secrets.DB_USERNAME }}
-            envkey_DATABASE_PASSWORD: ${{ secrets.DB_PASSWORD}}
-            envkey_DATABASE_NAME: ${{ secrets.DB_NAME }}
-            envkey_BASIC_AUTH: ${{ secrets.BASIC_AUTH }}
-            envkey_BASIC_USERNAME: ${{ secrets.BASIC_USERNAME }}
-            envkey_BASIC_PASSWORD: ${{ secrets.BASIC_PASSWORD }}
-            directory: backend
-            file_name: .env
-            fail_on_empty: true
-
     # This workflow contains a single job called "build"
     build:
         # The type of runner that the job will run on
@@ -46,10 +25,28 @@ jobs:
         steps:
             # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
             - uses: actions/checkout@v3
-            - uses: actions/setup-node@v3
+            - name: Use Node.js
+              uses: actions/setup-node@v3
               with:
                   node-version: 16
                   cache: "npm"
+            
+            - name: Make envfile
+              uses: SpicyPizza/create-envfile@v1.3
+                with:
+                  envkey_DEBUG: false
+                  envkey_SOME_API_KEY: "123456abcdef"
+                  envkey_DATABASE_DBHOST: ${{ secrets.DB_HOST }}
+                  envkey_DATABASE_USERNAME: ${{ secrets.DB_USERNAME }}
+                  envkey_DATABASE_PASSWORD: ${{ secrets.DB_PASSWORD}}
+                  envkey_DATABASE_NAME: ${{ secrets.DB_NAME }}
+                  envkey_BASIC_AUTH: ${{ secrets.BASIC_AUTH }}
+                  envkey_BASIC_USERNAME: ${{ secrets.BASIC_USERNAME }}
+                  envkey_BASIC_PASSWORD: ${{ secrets.BASIC_PASSWORD }}
+                  directory: backend
+                  file_name: .env
+                  fail_on_empty: true
+                  
             - run: npm ci
               working-directory: backend
             - run: npm run build --if-present
