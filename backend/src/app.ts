@@ -2,6 +2,7 @@ import express, { Express } from "express";
 import { authorisation } from "./controllers/auth";
 import { DB } from "./db";
 import routes from "./routes";
+import { errorHandler } from "./utilis";
 
 DB()
     .then(() => {
@@ -16,6 +17,7 @@ const port = process.env.PORT || 8080;
 
 app.use(express.json());
 app.use(authorisation);
+app.use(errorHandler);
 
 app.get("/", (req, res) => {
     res.send("ok");
