@@ -16,12 +16,13 @@ const app: Express = express();
 const port = process.env.PORT || 8080;
 
 app.use(express.json());
-app.use(authorisation);
 app.use(errorHandler);
 
 app.get("/", (req, res) => {
     res.send("ok");
 });
+
+app.use(authorisation);
 
 routes.map((r) => {
     app.use("/api", r);
