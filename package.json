@@ -3,7 +3,8 @@
     "description": "CS3219 Task B/C: Web Application Task",
     "scripts": {
         "prettier": "npx prettier --write .",
-        "backend-dev": "cd backend && npm run dev"
+        "backend-dev": "cd backend && npm run dev",
+        "start": "cd backend && npm run build && npm start"
     },
     "devDependencies": {
         "prettier": "^2.7.1"
