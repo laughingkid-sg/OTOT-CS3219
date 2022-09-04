@@ -9,19 +9,19 @@ chai.use(chaiHttp);
 chai.should();
 
 const testData = {
-    post : {
-        quantity : 20.0,
-        purchasePrice : 10000,
-        coin : "bitcoin"
-    }, 
+    post: {
+        quantity: 20.0,
+        purchasePrice: 10000,
+        coin: "bitcoin",
+    },
 
     put: {
-        id : "",
-        quantity : 40.0,
-        purchasePrice : 20000,
-        coin : "ethereum"
-    }
-}
+        id: "",
+        quantity: 40.0,
+        purchasePrice: 20000,
+        coin: "ethereum",
+    },
+};
 
 describe("Database", () => {
     describe("Await Connection to database", () => {
@@ -47,7 +47,6 @@ describe("Cyrpto Coins", () => {
 });
 
 describe("Portfolio", () => {
-
     describe("POST /", () => {
         it("should create a new record in user's porfolio", (done) => {
             chai.request(app)
@@ -70,14 +69,28 @@ describe("Portfolio", () => {
                 .auth(process.env.BASIC_USERNAME!, process.env.BASIC_PASSWORD!)
                 .end((err, res) => {
                     res.should.have.status(200);
-                    res.body.should.be.a("object");            
+                    res.body.should.be.a("object");
                     assert.isNotEmpty(res.body.portfolios);
-                    const portfolios : Portfolio[] = res.body.portfolios
-                    const insertedTestPortoflio = portfolios.find(portfolio => portfolio.id === testData.put.id);
+                    const portfolios: Portfolio[] = res.body.portfolios;
+                    const insertedTestPortoflio = portfolios.find(
+                        (portfolio) => portfolio.id === testData.put.id,
+                    );
                     assert.isNotEmpty(insertedTestPortoflio);
-                    assert.equal(testData.post.quantity, insertedTestPortoflio?.quantity, "Quantity should be equal.");
-                    assert.equal(testData.post.purchasePrice, insertedTestPortoflio?.purchasePrice, "Purchase price should be equal.");
-                    assert.equal(testData.post.coin, insertedTestPortoflio?.coin.id, "Purchase price should be equal.");
+                    assert.equal(
+                        testData.post.quantity,
+                        insertedTestPortoflio?.quantity,
+                        "Quantity should be equal.",
+                    );
+                    assert.equal(
+                        testData.post.purchasePrice,
+                        insertedTestPortoflio?.purchasePrice,
+                        "Purchase price should be equal.",
+                    );
+                    assert.equal(
+                        testData.post.coin,
+                        insertedTestPortoflio?.coin.id,
+                        "Purchase price should be equal.",
+                    );
                     done();
                 });
         });
@@ -92,7 +105,7 @@ describe("Portfolio", () => {
                 .end((err, res) => {
                     res.should.have.status(200);
                     res.body.should.be.a("object");
-                    assert.equal(res.body.affected, 1, "One row should be updated")
+                    assert.equal(res.body.affected, 1, "One row should be updated");
                     done();
                 });
         });
@@ -102,12 +115,12 @@ describe("Portfolio", () => {
         it("should delete the new record created in previous test", (done) => {
             chai.request(app)
                 .delete("/api/portfolio")
-                .send({id: testData.put.id})
+                .send({ id: testData.put.id })
                 .auth(process.env.BASIC_USERNAME!, process.env.BASIC_PASSWORD!)
                 .end((err, res) => {
                     res.should.have.status(200);
                     res.body.should.be.a("object");
-                    assert.equal(res.body.affected, 1, "One row should be deleted")
+                    assert.equal(res.body.affected, 1, "One row should be deleted");
                     done();
                 });
         });
