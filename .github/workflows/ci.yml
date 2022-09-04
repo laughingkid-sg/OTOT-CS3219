@@ -13,9 +13,6 @@ on:
     # Allows you to run this workflow manually from the Actions tab
     workflow_dispatch:
 
-env:
-  WORKFLOW_VARIABLE: WORKFLOW
-
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
     # This workflow contains a single job called "build"
@@ -27,7 +24,16 @@ jobs:
         steps:
             # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
             - uses: actions/checkout@v3
-            - uses: actions/setup-node@v3
+            - name: mocha test
+              env:
+                DATABASE_DBHOST: ${{ secrets.DB_HOST }}
+                DATABASE_USERNAME: ${{ secrets.DB_USERNAME }}
+                DATABASE_PASSWORD: ${{ secrets.DB_PASSWORD}}
+                DATABASE_NAME: ${{ secrets.DB_NAME }}
+                BASIC_AUTH: ${{ secrets.BASIC_AUTH }}
+                BASIC_USERNAME: ${{ secrets.BASIC_USERNAME }}
+                BASIC_PASSWORD: ${{ secrets.BASIC_PASSWORD }}
+              - uses: actions/setup-node@v3
               with:
                   node-version: 16
                   cache: "npm"
@@ -35,16 +41,6 @@ jobs:
               working-directory: backend
             - run: npm run build --if-present
               working-directory: backend
-            - run: |
-                touch .env
-                echo	DATABASE_USERNAME="${{ secrets.DATABASE_USERNAME }}" >> .env
-                echo	DATABASE_PASSWORD="${{ secrets.DATABASE_PASSWORD}}"	>> .env
-                echo	DATABASE_NAME="${{ secrets.DATABASE_NAME }}" >> .env
-                echo	SECRET="${{ secrets.SECRET }}" >> .env
-                echo	BASIC_AUTH="${{ secrets.BASIC_AUTH }}" >> .env
-                echo	BASIC_USERNAME="${{ secrets.BASIC_USERNAME }}" >> .env
-                echo	BASIC_PASSWORD="${{ secrets.BASIC_PASSWORD }}" >> .env
-                cat .env
               working-directory: backend
             - run: npm test
               working-directory: backend
