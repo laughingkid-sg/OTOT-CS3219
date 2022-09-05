@@ -19,7 +19,10 @@ const App = () => {
   const coinGeckoURL = "https://www.coingecko.com/en/coins";
   React.useEffect(() => {
     axios.serverless.get("/api/trending-crypto").then((response) => {
-      setTrending(response.data.coins);
+      const { data } = response;
+      const { coins } : { coins : Coin[]} = data;
+      coins.sort((a, b) => a.market_cap_rank - b.market_cap_rank);
+      setTrending(coins);
     });
   }, []);
 
