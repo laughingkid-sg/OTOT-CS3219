@@ -46,7 +46,7 @@ const App = () => {
             <Flex alignItems="end" alignContent="flex-end" flexDirection="row" p="2">
               <Box paddingRight="4px">
                 <Heading as="h1" size="md">
-                  Trending Coin
+                  Trending Coins
                 </Heading>
               </Box>
               <Box>
@@ -86,7 +86,7 @@ const App = () => {
                       </Box>
                       <Box>
                         <Text>
-                          <b>CoinGecko Ranking:</b> {coin.market_cap_rank}
+                          <b>Ranking:</b> {coin.market_cap_rank}
                         </Text>
                       </Box>
                       <Box>
