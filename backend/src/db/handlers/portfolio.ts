@@ -24,16 +24,17 @@ const getAllPortfolio = async (email: string) => {
     const userPorfolio = await userRepo().findOne({
         relations: {
             portfolios: {
-                coin: true
-            }
+                coin: true,
+            },
         },
         select: {
             email: true,
             portfolios: true,
-        }, where: {
-            email: email
-        }
-    })
+        },
+        where: {
+            email: email,
+        },
+    });
 
     return userPorfolio;
 };
