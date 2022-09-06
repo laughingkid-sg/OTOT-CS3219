@@ -31,3 +31,4 @@ const portfolioRepo = () => ds.getRepository(Portfolio);
 export { DB, ds, userRepo, coinRepo, portfolioRepo };
 export * from "./entities/index";
 export * from "./handlers/index";
+export * from "./seed"
