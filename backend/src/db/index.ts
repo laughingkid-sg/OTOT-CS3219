@@ -14,6 +14,9 @@ const ds = new DataSource({
     entities: [User, Coin, Portfolio],
     subscribers: [],
     migrations: [],
+    extra: {
+        trustServerCertificate: true,
+    }
 });
 
 const DB = async () => {
