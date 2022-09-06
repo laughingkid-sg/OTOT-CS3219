@@ -1,7 +1,7 @@
 import chai, { assert } from "chai";
 import chaiHttp from "chai-http";
 import app from "../app";
-import { ds, Portfolio } from "../db/";
+import { DB, ds, Portfolio } from "../db/";
 require("dotenv").config();
 
 // Configure chai
@@ -26,12 +26,14 @@ const testData = {
 describe("Database", () => {
     describe("Await Connection to database", () => {
         it("should connect to database", (done) => {
-            if (ds.isInitialized) {
-                done()
-            } else {
-                ds.initialize().then(() => done());
-            }
-        }).timeout(30000);
+            DB()
+                .then(() => {
+                    done();
+                })
+                .catch((err) => {
+                    console.error("Error during Data Source initialization", err);
+                });
+        }).timeout(10000);
     });
 });
 
