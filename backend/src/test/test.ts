@@ -109,6 +109,9 @@ describe("Portfolio", () => {
                 .end((err, res) => {
                     res.should.have.status(200);
                     res.body.should.be.a("object");
+                    assert.equal(res.body.raw[0].coinId, testData.put.coin, "Data inserted should be equal.");
+                    assert.equal(res.body.raw[0].purchasePrice, testData.put.purchasePrice, "Data inserted should be equal.");
+                    assert.equal(res.body.raw[0].quantity, testData.put.quantity, "Data inserted should be equal.");
                     assert.equal(res.body.affected, 1, "One row should be updated");
                     done();
                 });
