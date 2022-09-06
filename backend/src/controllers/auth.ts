@@ -1,6 +1,8 @@
 import { Request, Response, NextFunction } from "express";
 require("dotenv").config();
 
+const basicAuth = Buffer.from(`${process.env.BASIC_USERNAME!}:${process.env.BASIC_PASSWORD!}`, 'utf8').toString('base64');
+
 const authorisation = (req: Request, res: Response, next: NextFunction) => {
     try {
         const token = req.headers.authorization;
@@ -9,7 +11,7 @@ const authorisation = (req: Request, res: Response, next: NextFunction) => {
             return res.status(401).send();
         }
 
-        if (token.split(" ")[0] === "Basic" && token.split(" ")[1] === process.env.BASIC_AUTH) {
+        if (token.split(" ")[0] === "Basic" && token.split(" ")[1] === basicAuth) {
             req.body.email = `demo@cs3219.com`;
             next();
         } else {
