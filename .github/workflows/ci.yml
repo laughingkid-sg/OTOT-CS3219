@@ -35,14 +35,12 @@ jobs:
               uses: SpicyPizza/create-envfile@v1.3
               with:
                 envkey_DEBUG: false
-                envkey_SOME_API_KEY: "123456abcdef"
                 envkey_DATABASE_DBHOST: ${{ secrets.DB_HOST }}
                 envkey_DATABASE_USERNAME: ${{ secrets.DB_USERNAME }}
                 envkey_DATABASE_PASSWORD: ${{ secrets.DB_PASSWORD}}
                 envkey_DATABASE_NAME: ${{ secrets.DB_NAME }}
-                envkey_BASIC_AUTH: ${{ secrets.BASIC_AUTH }}
-                envkey_BASIC_USERNAME: ${{ secrets.BASIC_USERNAME }}
-                envkey_BASIC_PASSWORD: ${{ secrets.BASIC_PASSWORD }}
+                envkey_BASIC_USERNAME: "tester@tester.com"
+                envkey_BASIC_PASSWORD: "0O82W84Wx7b"
                 directory: backend
                 file_name: .env
                 fail_on_empty: true
