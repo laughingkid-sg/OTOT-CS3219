@@ -8,7 +8,7 @@ import {
 } from "typeorm";
 import { Coin, User } from ".";
 
-@Entity()
+@Entity("portfolio")
 export class Portfolio {
     @PrimaryGeneratedColumn("uuid")
     id?: string;

@@ -8,7 +8,7 @@ import {
 } from "typeorm";
 import { Portfolio } from ".";
 
-@Entity()
+@Entity("coin")
 export class Coin {
     @PrimaryColumn()
     id!: string;

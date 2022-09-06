@@ -14,7 +14,7 @@ enum Role {
     STANDARD_USER,
 }
 
-@Entity()
+@Entity("applicationuser")
 export class User {
     @PrimaryColumn()
     email!: string;
