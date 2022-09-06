@@ -6,7 +6,7 @@ import { errorHandler } from "./utilis";
 
 DB()
     .then(() => {
-        simpleSeed()
+        simpleSeed();
         console.log("Data Source has been initialized!");
     })
     .catch((err) => {

@@ -1,7 +1,10 @@
 import { Request, Response, NextFunction } from "express";
 require("dotenv").config();
 
-const basicAuth = Buffer.from(`${process.env.BASIC_USERNAME!}:${process.env.BASIC_PASSWORD!}`, 'utf8').toString('base64');
+const basicAuth = Buffer.from(
+    `${process.env.BASIC_USERNAME!}:${process.env.BASIC_PASSWORD!}`,
+    "utf8",
+).toString("base64");
 
 const authorisation = (req: Request, res: Response, next: NextFunction) => {
     try {

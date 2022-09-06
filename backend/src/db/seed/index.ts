@@ -75,11 +75,16 @@ const simpleSeed = async () => {
         },
     });
     if (!defaultUser) {
-      await ds.createQueryBuilder().insert().into(User).values({
-        email: "demo@cs3219.com",
-        password: "123456", // Stored in plain text for demo purpose 
-        role: 1
-      }).execute();
+        await ds
+            .createQueryBuilder()
+            .insert()
+            .into(User)
+            .values({
+                email: "demo@cs3219.com",
+                password: "123456", // Stored in plain text for demo purpose
+                role: 1,
+            })
+            .execute();
     }
 };
 
