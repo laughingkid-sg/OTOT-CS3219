@@ -13,11 +13,11 @@ router.post(
     body("quantity")
         .exists()
         .isFloat({ min: 0.000001, max: 1000000 })
-        .withMessage("Quantity must be at between 0.000001 and 1000000."),
+        .withMessage("Quantity must be between 0.000001 and 1000000."),
     body("purchasePrice")
         .exists()
         .isInt({ min: 1, max: 100000000 })
-        .withMessage("Purchase price (in cents) must be at between 1 and 100000000)."),
+        .withMessage("Purchase price (in cents) must be between 1 and 100000000)."),
     body("coin")
         .not()
         .isEmpty()
