@@ -47,6 +47,10 @@ jobs:
 
             # Start up sqlserver
             - run: docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=1StrongPwd!!" -e 'MSSQL_PID=Express' --name sqlserver -p 1433:1433 -d mcr.microsoft.com/mssql/server:2019-latest
+            - name: Sleep for 30 seconds
+              uses: jakejarvis/wait-action@master
+              with:
+                time: '10s'
             - run: docker exec -i sqlserver /opt/mssql-tools/bin/sqlcmd -S localhost -U SA -P "1StrongPwd!!" -Q 'CREATE DATABASE DemoData'
             - run: npm ci
               working-directory: backend
