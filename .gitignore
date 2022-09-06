@@ -105,3 +105,4 @@ dist
 
 serverless/local.settings.json
 build
+.DS_Store

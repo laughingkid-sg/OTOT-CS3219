@@ -3,12 +3,9 @@ import { DataSource } from "typeorm";
 require("dotenv").config();
 
 const ds = new DataSource({
-    type: "mssql",
-    host: process.env.DATABASE_DBHOST!,
-    port: 1433,
-    username: process.env.DATABASE_USERNAME!,
-    password: process.env.DATABASE_PASSWORD!,
-    database: process.env.DATABASE_NAME!,
+    type: "sqlite",
+    database: ":memory:",
+    dropSchema: true,
     synchronize: true,
     logging: false,
     entities: [User, Coin, Portfolio],
@@ -31,3 +28,4 @@ const portfolioRepo = () => ds.getRepository(Portfolio);
 export { DB, ds, userRepo, coinRepo, portfolioRepo };
 export * from "./entities/index";
 export * from "./handlers/index";
+export * from "./seed"
