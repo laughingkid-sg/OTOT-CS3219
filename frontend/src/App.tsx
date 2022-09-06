@@ -56,6 +56,8 @@ const App = () => {
 
   const coinGeckoURL = "https://www.coingecko.com/en/coins";
   const portfolioRoute = "/api/portfolio";
+  const coinRoute = "/api/coin";
+  const serverRoute = "/api/trending-crypto";
 
   const [trending, setTrending] = React.useState<Coin[]>([]);
   const [supportedCoins, setSupportedCoins] = React.useState<Coin[]>([]);
@@ -123,20 +125,20 @@ const App = () => {
   };
 
   React.useEffect(() => {
-    axios.serverless.get("/api/trending-crypto").then((response) => {
+    axios.serverless.get(serverRoute).then((response) => {
       const { data } = response;
       const { coins }: { coins: Coin[] } = data;
       coins.sort((a, b) => a.market_cap_rank! - b.market_cap_rank!);
       setTrending(coins);
     });
 
-    axios.webserver.get("/api/coin").then((response) => {
+    axios.webserver.get(coinRoute).then((response) => {
       const { data } = response;
       const coins: Coin[] = data;
       setSupportedCoins(coins);
     });
 
-    axios.webserver.get("/api/portfolio").then((response) => {
+    axios.webserver.get(portfolioRoute).then((response) => {
       const { data } = response;
       const user: User = data;
       setPortfolio(user.portfolios);
