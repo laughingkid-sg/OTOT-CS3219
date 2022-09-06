@@ -3,9 +3,12 @@ import { DataSource } from "typeorm";
 require("dotenv").config();
 
 const ds = new DataSource({
-    type: "sqlite",
-    database: ":memory:",
-    dropSchema: true,
+    type: "mssql",
+    host: process.env.DATABASE_DBHOST!,
+    port: 1433,
+    username: process.env.DATABASE_USERNAME!,
+    password: process.env.DATABASE_PASSWORD!,
+    database: process.env.DATABASE_NAME!,
     synchronize: true,
     logging: false,
     entities: [User, Coin, Portfolio],
