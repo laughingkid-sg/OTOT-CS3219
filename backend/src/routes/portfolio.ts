@@ -17,7 +17,7 @@ router.post(
     body("purchasePrice")
         .exists()
         .isInt({ min: 1, max: 100000000 })
-        .withMessage("Purchase pirce must be at between $0.01 and $1,000,000)."),
+        .withMessage("Purchase price (in cents) must be at between 1 and 100000000)."),
     body("coin")
         .not()
         .isEmpty()
@@ -41,12 +41,12 @@ router.put(
     body("id").not().isEmpty().trim().escape().isUUID().withMessage("Invalid portfolio record ID."),
     body("quantity")
         .exists()
-        .isFloat({ min: 0.000000000000000001, max: 10000 })
-        .withMessage("Quantity must be at between 0.000000000000000001 and 10000."),
+        .isFloat({ min: 0.000001, max: 1000000 })
+        .withMessage("Quantity must be at between 0.000001 and 1000000."),
     body("purchasePrice")
         .exists()
         .isInt({ min: 1, max: 100000000 })
-        .withMessage("Purchase pirce must be at between $0.01 and $1,000,000)."),
+        .withMessage("Purchase price (in cents) must be at between 1 and 100000000)."),
     body("coin")
         .not()
         .isEmpty()

@@ -1,11 +1,12 @@
 import express, { Express } from "express";
 import { authorisation } from "./controllers/auth";
-import { DB } from "./db";
+import { DB, simpleSeed } from "./db";
 import routes from "./routes";
 import { errorHandler } from "./utilis";
 
 DB()
     .then(() => {
+        simpleSeed()
         console.log("Data Source has been initialized!");
     })
     .catch((err) => {

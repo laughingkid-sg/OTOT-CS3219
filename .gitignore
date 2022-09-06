@@ -104,3 +104,4 @@ dist
 .tern-port
 serverless/local.settings.json
 build
+.DS_Store
