@@ -4,8 +4,8 @@ require("dotenv").config();
 
 const ds = new DataSource({
     type: "mssql",
-    host: process.env.DATABASE_DBHOST!,
     port: 1433,
+    host: process.env.DATABASE_DBHOST!,
     username: process.env.DATABASE_USERNAME!,
     password: process.env.DATABASE_PASSWORD!,
     database: process.env.DATABASE_NAME!,

@@ -6,7 +6,7 @@ name: CI
 on:
     # Triggers the workflow on push or pull request events but only for the "main" branch
     push:
-        branches: ["task-b2-1"]
+        branches: ["ci-testing"]
     pull_request:
         branches: ["main"]
 
@@ -35,18 +35,18 @@ jobs:
               uses: SpicyPizza/create-envfile@v1.3
               with:
                 envkey_DEBUG: false
-                envkey_SOME_API_KEY: "123456abcdef"
-                envkey_DATABASE_DBHOST: ${{ secrets.DB_HOST }}
-                envkey_DATABASE_USERNAME: ${{ secrets.DB_USERNAME }}
-                envkey_DATABASE_PASSWORD: ${{ secrets.DB_PASSWORD}}
-                envkey_DATABASE_NAME: ${{ secrets.DB_NAME }}
-                envkey_BASIC_AUTH: ${{ secrets.BASIC_AUTH }}
-                envkey_BASIC_USERNAME: ${{ secrets.BASIC_USERNAME }}
-                envkey_BASIC_PASSWORD: ${{ secrets.BASIC_PASSWORD }}
+                envkey_DATABASE_DBHOST: "localhost"
+                envkey_DATABASE_USERNAME: "sa"
+                envkey_DATABASE_PASSWORD: "1StrongPwd!!"
+                envkey_DATABASE_NAME: "master"
+                envkey_BASIC_USERNAME: "tester@tester.com"
+                envkey_BASIC_PASSWORD: "0O82W84Wx7b"
                 directory: backend
                 file_name: .env
                 fail_on_empty: true
 
+            # Start up sqlserver
+            - run: docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=1StrongPwd!!" -p 1433:1433 -d mcr.microsoft.com/mssql/server:2019-latest
             - run: npm ci
               working-directory: backend
             - run: npm run build --if-present
