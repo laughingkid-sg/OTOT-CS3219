@@ -5,6 +5,7 @@ require("dotenv").config();
 const ds = new DataSource({
     type: "mssql",
     port: 1433,
+    dropSchema: true,
     host: process.env.DATABASE_DBHOST!,
     username: process.env.DATABASE_USERNAME!,
     password: process.env.DATABASE_PASSWORD!,
