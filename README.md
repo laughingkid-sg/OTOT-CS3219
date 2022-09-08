@@ -3,7 +3,7 @@
 [![Build, test and deploy](https://github.com/laughingkid-sg/OTOT-CS3219/actions/workflows/release.yml/badge.svg)](https://github.com/laughingkid-sg/OTOT-CS3219/actions/workflows/release.yml)
 
 ## Assignment Details
-[CS3219_Assignment_OTOT_Task B.pdf](OTOT_Task_B%20e069206f6a6f49198e3b2b0f9a2a7888/CS3219_Assignment_OTOT_Task_B.pdf)
+PDF File: [CS3219_Assignment_OTOT_Task B.pdf](https://drive.google.com/uc?export=download&id=1xmDy1yqa078ruRJuxLsUFic3uTZrdMYX)
 
 ## Tasks
 
