@@ -14,5 +14,9 @@ export type CreatePortfolio = Pick<Portfolio, "purchasePrice" | "quantity"> & {
 }
 
 export type UpdatePortfolio = CreatePortfolio & {
-    id?: string
+    id: string
+}
+
+export type UpdatedPortfolio = Pick<Portfolio, "purchasePrice" | "quantity" | "id" | "createDate" | "updateDate"> & {
+    coinId: string,
 }

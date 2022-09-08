@@ -1,13 +1,13 @@
 /* eslint react/prop-types: 0 */
 /* eslint react/destructuring-assignment: 0 */
 /* eslint react/no-unstable-nested-components: 0 */
+// Styles
 import {
   ChakraProvider,
   Box,
   Flex,
   Text,
   Container,
-  SimpleGrid,
   Image,
   Heading,
   Stack,
@@ -25,27 +25,22 @@ import {
   Th,
   Td,
   chakra,
-  Popover,
-  PopoverTrigger,
-  Portal,
-  PopoverArrow,
-  PopoverHeader,
-  PopoverCloseButton,
-  PopoverFooter,
-  PopoverContent,
-  PopoverBody,
   InputGroup,
   InputLeftAddon,
 } from "@chakra-ui/react";
 import { Select } from "chakra-react-select";
 import { TriangleDownIcon, TriangleUpIcon } from "@chakra-ui/icons";
-import React from "react";
+// React
 import { useTable, Column, useSortBy } from "react-table";
+import React from "react";
 import moment from "moment";
 import axios from "./axios";
+// Compoenent
+import EditSection from "./components/EditSection";
+// Types
 import { Coin } from "./types/Coin";
-import { CreatePortfolio, Portfolio, UpdatePortfolio } from "./types/Portfolio";
 import { User } from "./types/User";
+import { CreatePortfolio, Portfolio, UpdatedPortfolio, UpdatePortfolio } from "./types/Portfolio";
 
 const App = () => {
   const portfolioDefault = {
@@ -64,22 +59,11 @@ const App = () => {
   const [portfolio, setPortfolio] = React.useState<Portfolio[]>([]);
   const [createPortfolioValue, setCreatePortfolioValue] =
     React.useState<CreatePortfolio>(portfolioDefault);
-  const [updatePortfolioValue, setUpdatePortfolioValue] =
-    React.useState<CreatePortfolio>(portfolioDefault);
 
-  const updatePortfolioState = (
-    isCreate: boolean,
-    coin?: string,
-    quantity?: number,
-    price?: number,
-  ) => {
-    const temp: CreatePortfolio | UpdatePortfolio = isCreate
-      ? {
-          ...createPortfolioValue,
-        }
-      : {
-          ...updatePortfolioValue,
-        };
+  const updatePortfolioState = (coin?: string, quantity?: number, price?: number) => {
+    const temp: CreatePortfolio = {
+      ...createPortfolioValue,
+    };
     if (coin) {
       temp.coin = coin;
     } else if (quantity) {
@@ -87,11 +71,7 @@ const App = () => {
     } else if (price) {
       temp.purchasePrice = price;
     }
-    if (isCreate) {
-      setCreatePortfolioValue(temp);
-    } else {
-      setUpdatePortfolioValue(temp);
-    }
+    setCreatePortfolioValue(temp);
   };
 
   const createPortfolio = () => {
@@ -112,15 +92,36 @@ const App = () => {
       });
   };
 
+  const updatePortfolio = (updateData: UpdatePortfolio) => {
+    axios.webserver
+      .put(portfolioRoute, {
+        ...updateData,
+        purchasePrice: updateData.purchasePrice * 100,
+      })
+      .then((response) => {
+        let temp = [...portfolio];
+        const { data } = response;
+        const { raw } = data;
+        const updatedCoin: UpdatedPortfolio[] = raw;
+        const updatedPortfolio: Portfolio = {
+          ...updatedCoin[0],
+          coin: supportedCoins.find((x) => x.id === updatedCoin[0].coinId)!,
+        };
+        temp = temp.filter((x) => x.id !== updatedPortfolio.id);
+        temp.push(updatedPortfolio);
+        setPortfolio(temp);
+      });
+  };
+
   const deletePortfolio = (id: string) => {
     axios.webserver
       .delete(portfolioRoute, {
         data: { id },
       })
       .then(() => {
-        let updatePortfolio = [...portfolio];
-        updatePortfolio = updatePortfolio.filter((x) => x.id !== id);
-        setPortfolio(updatePortfolio);
+        let temp = [...portfolio];
+        temp = temp.filter((x) => x.id !== id);
+        setPortfolio(temp);
       });
   };
 
@@ -157,13 +158,13 @@ const App = () => {
         ),
       },
       {
+        Header: "Quantity",
+        accessor: "quantity",
+      },
+      {
         Header: "Purchase price",
         accessor: "purchasePrice",
         Cell: (props) => <Text>${(props.value / 100).toFixed(2)}</Text>,
-      },
-      {
-        Header: "Quantity",
-        accessor: "quantity",
       },
       {
         Header: "Cost per coin",
@@ -173,78 +174,29 @@ const App = () => {
       {
         Header: "Created Date",
         accessor: "createDate",
-        Cell: (props) => <Text>{moment(props.value).utc().fromNow().toString()}</Text>,
+        Cell: (props) => <Text>{moment(props.value).add(8, 'hours').fromNow()}</Text>,
       },
       {
         Header: "Last Update",
         accessor: "updateDate",
-        Cell: (props) => <Text>{moment(props.value).fromNow().toString()}</Text>,
+        Cell: (props) => <Text>{moment(props.value).add(8, 'hours').local().fromNow().toString()}</Text>,
       },
       {
         Header: "Edit",
         accessor: (row) => (
-          <Popover>
-            <PopoverTrigger>
-              <Button colorScheme="blue">Edit</Button>
-            </PopoverTrigger>
-            <Portal>
-              <PopoverContent>
-                <PopoverArrow />
-                <PopoverHeader>
-                  <b>Edit record</b>
-                </PopoverHeader>
-                <PopoverCloseButton />
-                <PopoverBody>
-                  <FormControl w="85%" isRequired>
-                    <FormLabel htmlFor="cryptocurrency">Cryptocurrency</FormLabel>
-                    <Select
-                      tagVariant="solid"
-                      options={supportedCoins.map((coin) => ({
-                        label: coin.name,
-                        value: coin.id,
-                      }))}
-                    />
-                  </FormControl>
-                  <FormControl w="85%" pt="4" isRequired>
-                    <FormLabel htmlFor="quantity">Quantity</FormLabel>
-                    <NumberInput
-                      defaultValue={row.quantity}
-                      min={0.000001}
-                      max={1000000}
-                      keepWithinRange
-                      clampValueOnBlur
-                      precision={6}
-                      step={5}
-                    >
-                      <NumberInputField />
-                    </NumberInput>
-                    <FormHelperText>Support values between 0.000001 and 1000000.</FormHelperText>
-                  </FormControl>
-                  <FormControl w="85%" pt="4" isRequired>
-                    <FormLabel htmlFor="price">Price</FormLabel>
-                    <NumberInput
-                      defaultValue={createPortfolioValue.purchasePrice}
-                      min={0.01}
-                      max={1000000}
-                      keepWithinRange
-                      clampValueOnBlur
-                      precision={2}
-                      step={5}
-                    >
-                      <NumberInputField />
-                    </NumberInput>
-                    <FormHelperText>
-                      Purchase price must be between $0.01 and $1,000,000.
-                    </FormHelperText>
-                  </FormControl>
-                </PopoverBody>
-                <PopoverFooter>
-                  <Button colorScheme="blue">Save</Button>
-                </PopoverFooter>
-              </PopoverContent>
-            </Portal>
-          </Popover>
-        ),
+          <EditSection
+            updatePortfolio={{
+              id: row.id,
+              purchasePrice: row.purchasePrice / 100,
+              quantity: row.quantity,
+              coin: row.coin.id,
+            }}
+            coinName={row.coin.name}
+            updateFunction={updatePortfolio}
+            supportedCoins={supportedCoins}
+          />
+        
+        ),disableSortBy: true,
       },
       {
         Header: "",
@@ -270,7 +222,19 @@ const App = () => {
   const data = React.useMemo(() => portfolio, [portfolio]);
 
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable(
-    { columns, data },
+    {
+      columns,
+      data,
+      initialState: {
+        sortBy: [
+          {
+            id: "updateDate",
+            desc: false,
+          },
+        ],
+      },
+    },
+
     useSortBy,
   );
 
@@ -285,9 +249,165 @@ const App = () => {
           </Box>
         </Flex>
       </Box>
-      <Container maxW="1920px" p="20px">
-        <Box>
-          <Box>
+      <Container maxW="1920px" p="20px 100px">
+        <Flex
+          flexDir="row"
+          alignItems="flex-start"
+          alignContent="flex-start"
+          justifyContent="center"
+        >
+          <Flex p="2" flexDir="column">
+            <Box>
+              <Box>
+                <Box>
+                  <Heading as="h1" size="md">
+                    Add purchase
+                  </Heading>
+                </Box>
+                <Box>
+                  <Text>POST | api/portfolio/</Text>
+                </Box>
+              </Box>
+              <Box
+                border="1px"
+                borderRadius="8px"
+                borderColor="blackAlpha.500"
+                p="4"
+                margin="8px 8px 8px 0"
+              >
+                <FormControl w="85%" isRequired>
+                  <FormLabel htmlFor="cryptocurrency">Cryptocurrency</FormLabel>
+
+                  <Select
+                    tagVariant="solid"
+                    defaultValue={{ label: "Bitcoin", value: createPortfolioValue.coin }}
+                    options={supportedCoins.map((coin) => ({
+                      label: coin.name,
+                      value: coin.id,
+                    }))}
+                    onChange={(e) => {
+                      updatePortfolioState(e?.value);
+                    }}
+                  />
+                </FormControl>
+                <FormControl w="85%" pt="4" isRequired>
+                  <FormLabel htmlFor="quantity">Quantity</FormLabel>
+                  <InputGroup>
+                    <NumberInput
+                      onChange={(e) => updatePortfolioState(undefined, parseFloat(e))}
+                      defaultValue={createPortfolioValue.quantity}
+                      min={0.000001}
+                      max={1000000}
+                      keepWithinRange
+                      clampValueOnBlur
+                      precision={6}
+                      step={5}
+                    >
+                      <NumberInputField />
+                    </NumberInput>
+                  </InputGroup>
+                  <FormHelperText>Support values between 0.000001 and 1000000.</FormHelperText>
+                </FormControl>
+                <FormControl w="85%" pt="4" isRequired>
+                  <FormLabel htmlFor="price">Price</FormLabel>
+                  <InputGroup>
+                    <InputLeftAddon>$</InputLeftAddon>
+                    <NumberInput
+                      onChange={(e) => updatePortfolioState(undefined, undefined, parseFloat(e))}
+                      defaultValue={createPortfolioValue.purchasePrice}
+                      min={0.01}
+                      max={1000000}
+                      keepWithinRange
+                      clampValueOnBlur
+                      precision={2}
+                      step={5}
+                    >
+                      <NumberInputField borderLeftRadius="0px" />
+                    </NumberInput>
+                  </InputGroup>
+
+                  <FormHelperText>
+                    Purchase price must be between $0.01 and $1,000,000.
+                  </FormHelperText>
+                </FormControl>
+
+                <Text pt="2">Your average buy price is <b>{`$${(createPortfolioValue.purchasePrice / createPortfolioValue.quantity).toFixed(2)}`}.</b></Text>
+                <Button mt={4} colorScheme="teal" type="submit" onClick={() => createPortfolio()}>
+                  Submit
+                </Button>
+              </Box>
+            </Box>
+          </Flex>
+
+          <Flex flexDirection="column" p="2">
+            <Box paddingRight="4px">
+              <Heading as="h1" size="md">
+                Trending Coins
+              </Heading>
+            </Box>
+            <Box>
+              <Text>retrieved by Azure Function</Text>
+            </Box>
+            <Box>
+              {trending.map((coin) => (
+                <Box
+                  key={coin.coin_id}
+                  border="1px"
+                  borderRadius="8px"
+                  borderColor="blackAlpha.500"
+                  p="4"
+                  m="4"
+                >
+                  <Box display="flex" alignItems="baseline">
+                    <Stack direction="row" align="center">
+                      <Flex
+                        w={8}
+                        h={8}
+                        align="center"
+                        justify="center"
+                        rounded="full"
+                        mb={1}
+                        mr={1}
+                      >
+                        <Link
+                          fontWeight="bold"
+                          href={`${coinGeckoURL}/${coin.coin_id}`}
+                          target="_blank"
+                        >
+                          <Image src={coin.large} alt={coin.name} />
+                        </Link>
+                      </Flex>
+
+                      <Flex flexDirection="column">
+                        <Box>
+                          <Link
+                            fontWeight="bold"
+                            href={`${coinGeckoURL}/${coin.coin_id}`}
+                            target="_blank"
+                          >
+                            {coin.name} ({coin.symbol})
+                          </Link>
+                        </Box>
+                        <Box>
+                          <Text>
+                            <b>Ranking:</b> {coin.market_cap_rank}
+                          </Text>
+                        </Box>
+                        <Box>
+                          <Text>
+                            <b>Price in BTC:</b> {coin.price_btc}
+                          </Text>
+                        </Box>
+                      </Flex>
+                    </Stack>
+                  </Box>
+                </Box>
+              ))}
+            </Box>
+          </Flex>
+        </Flex>
+        <Flex flexDir="column" alignItems="center">
+          <Box alignSelf="flex-start">
             <Box>
               <Heading as="h1" size="md">
                 Get all purchase
@@ -303,8 +423,9 @@ const App = () => {
             borderColor="blackAlpha.500"
             p="4"
             margin="8px 8px 8px 0"
+            width="100%"
           >
-            <Table overflow="scroll" {...getTableProps()}>
+            <Table overflow="auto" {...getTableProps()}>
               <Thead>
                 {
                   // Loop over the header rows
@@ -369,153 +490,7 @@ const App = () => {
               </Tbody>
             </Table>
           </Box>
-        </Box>
-        <SimpleGrid columns={2} spacing={10}>
-          <Box height="80px">
-            <Flex p="2" flexDir="column">
-              <Box>
-                <Box>
-                  <Box>
-                    <Heading as="h1" size="md">
-                      Add purchase
-                    </Heading>
-                  </Box>
-                  <Box>
-                    <Text>POST | api/portfolio/</Text>
-                  </Box>
-                </Box>
-                <Box
-                  border="1px"
-                  borderRadius="8px"
-                  borderColor="blackAlpha.500"
-                  p="4"
-                  margin="8px 8px 8px 0"
-                >
-                  <FormControl w="85%" isRequired>
-                    <FormLabel htmlFor="cryptocurrency">Cryptocurrency</FormLabel>
-
-                    <Select
-                      tagVariant="solid"
-                      defaultValue={{ label: "Bitcoin", value: createPortfolioValue.coin }}
-                      options={supportedCoins.map((coin) => ({
-                        label: coin.name,
-                        value: coin.id,
-                      }))}
-                      onChange={(e) => {
-                        updatePortfolioState(true, e?.value);
-                      }}
-                    />
-                  </FormControl>
-                  <FormControl w="85%" pt="4" isRequired>
-                    <FormLabel htmlFor="quantity">Quantity</FormLabel>
-                    <InputGroup>
-                      <NumberInput
-                        onChange={(e) => updatePortfolioState(true, undefined, parseFloat(e))}
-                        defaultValue={createPortfolioValue.quantity}
-                        min={0.000001}
-                        max={1000000}
-                        keepWithinRange
-                        clampValueOnBlur
-                        precision={6}
-                        step={5}
-                      >
-                        <NumberInputField />
-                      </NumberInput>
-                    </InputGroup>
-                    <FormHelperText>Support values between 0.000001 and 1000000.</FormHelperText>
-                  </FormControl>
-                  <FormControl w="85%" pt="4" isRequired>
-                    <FormLabel htmlFor="price">Price</FormLabel>
-                    <InputGroup>
-                      <InputLeftAddon>$</InputLeftAddon>
-                      <NumberInput
-                        onChange={(e) =>
-                          updatePortfolioState(true, undefined, undefined, parseFloat(e))
-                        }
-                        defaultValue={createPortfolioValue.purchasePrice}
-                        min={0.01}
-                        max={1000000}
-                        keepWithinRange
-                        clampValueOnBlur
-                        precision={2}
-                        step={5}
-                      >
-                        <NumberInputField borderLeftRadius="0px" />
-                      </NumberInput>
-                    </InputGroup>
-
-                    <FormHelperText>
-                      Purchase price must be between $0.01 and $1,000,000.
-                    </FormHelperText>
-                  </FormControl>
-
-                  <Text>Your average buy price is </Text>
-                  <Button mt={4} colorScheme="teal" type="submit" onClick={() => createPortfolio()}>
-                    Submit
-                  </Button>
-                </Box>
-              </Box>
-            </Flex>
-          </Box>
-          <Box height="80px">
-            <Flex alignItems="end" alignContent="flex-end" flexDirection="row" p="2">
-              <Box paddingRight="4px">
-                <Heading as="h1" size="md">
-                  Trending Coins
-                </Heading>
-              </Box>
-              <Box>
-                <Text>retrieved by Azure Function</Text>
-              </Box>
-            </Flex>
-            {trending.map((coin) => (
-              <Box
-                key={coin.coin_id}
-                border="1px"
-                borderRadius="8px"
-                borderColor="blackAlpha.500"
-                p="4"
-                m="4"
-              >
-                <Box display="flex" alignItems="baseline">
-                  <Stack direction="row" align="center">
-                    <Flex w={8} h={8} align="center" justify="center" rounded="full" mb={1} mr={1}>
-                      <Link
-                        fontWeight="bold"
-                        href={`${coinGeckoURL}/${coin.coin_id}`}
-                        target="_blank"
-                      >
-                        <Image src={coin.large} alt={coin.name} />
-                      </Link>
-                    </Flex>
-
-                    <Flex flexDirection="column">
-                      <Box>
-                        <Link
-                          fontWeight="bold"
-                          href={`${coinGeckoURL}/${coin.coin_id}`}
-                          target="_blank"
-                        >
-                          {coin.name} ({coin.symbol})
-                        </Link>
-                      </Box>
-                      <Box>
-                        <Text>
-                          <b>Ranking:</b> {coin.market_cap_rank}
-                        </Text>
-                      </Box>
-                      <Box>
-                        <Text>
-                          <b>Price in BTC:</b> {coin.price_btc}
-                        </Text>
-                      </Box>
-                    </Flex>
-                  </Stack>
-                </Box>
-              </Box>
-            ))}
-          </Box>
-        </SimpleGrid>
+        </Flex>
       </Container>
     </ChakraProvider>
   );
