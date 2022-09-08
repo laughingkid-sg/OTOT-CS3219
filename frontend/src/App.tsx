@@ -4,6 +4,7 @@
 // Styles
 import {
   ChakraProvider,
+  Divider,
   Box,
   Flex,
   Text,
@@ -501,7 +502,10 @@ const App = () => {
             </Table>
           </Box>
         </Flex>
+        <Divider mt="20px" mb="20px" />
+      <Text>By: Goh Zheng Teck | AY22/23 CS3219 OTOT Task B</Text>
       </Container>
+     
     </ChakraProvider>
   );
 };
