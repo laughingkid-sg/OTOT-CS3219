@@ -19,10 +19,9 @@ const port = process.env.PORT || 8080;
 
 app.use(express.json());
 app.use(errorHandler);
-app.use(express.static(path.join(__dirname, "frontend")));
 
 app.get("/", (req, res) => {
-    res.sendFile(path.join(__dirname, "frontend", "index.html"));
+    res.send("ok")
 });
 
 app.use(authorisation);
