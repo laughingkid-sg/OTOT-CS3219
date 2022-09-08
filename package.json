@@ -7,6 +7,7 @@
         "build" : "(cd backend && npm run build) && (cd frontend && npm run build)",
         "backend-dev": "cd backend && npm run dev",
         "frontend-dev": "cd frontend && npm start",
+        "copy:frontend" : "./scripts/copy-frontend.sh",
         "start": "cd backend && npm run build && npm start"
     },
     "devDependencies": {
