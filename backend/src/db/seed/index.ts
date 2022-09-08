@@ -1,5 +1,4 @@
-import { coinRepo } from "..";
-import { Coin, ds } from "../";
+import { coinRepo, userRepo, User, Coin, ds } from "..";
 
 const data: Coin[] = [
     {
@@ -65,6 +64,27 @@ const simpleSeed = async () => {
 
     if (data.length > 0) {
         await ds.createQueryBuilder().insert().into(Coin).values(insert).execute();
+    }
+
+    const defaultUser = await userRepo().findOne({
+        select: {
+            email: true,
+        },
+        where: {
+            email: "demo@cs3219.com",
+        },
+    });
+    if (!defaultUser) {
+        await ds
+            .createQueryBuilder()
+            .insert()
+            .into(User)
+            .values({
+                email: "demo@cs3219.com",
+                password: "123456", // Stored in plain text for demo purpose
+                role: 1,
+            })
+            .execute();
     }
 };
 
