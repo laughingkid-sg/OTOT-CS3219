@@ -1,5 +1,5 @@
 import { QueryDeepPartialEntity } from "typeorm/query-builder/QueryPartialEntity";
-import { Portfolio, ds , userRepo } from "..";
+import { Portfolio, ds, userRepo } from "..";
 
 const createPortfolio = async (portfolio: QueryDeepPartialEntity<Portfolio>) => {
     const result = await ds
