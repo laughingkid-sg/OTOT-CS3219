@@ -18,7 +18,6 @@ DB()
 const app: Express = express();
 const port = process.env.PORT || 8080;
 
-app.use(cors());
 app.use(express.json());
 app.use(errorHandler);
 app.use(express.static(path.join(__dirname, "frontend")));
