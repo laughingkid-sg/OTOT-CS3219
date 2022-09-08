@@ -109,5 +109,3 @@ build
 backend/src/frontend/*
 frontend/build
 backend/build
-serverless/local.settings.json
-build
