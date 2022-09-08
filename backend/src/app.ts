@@ -1,4 +1,3 @@
-import cors from "cors";
 import express, { Express } from "express";
 import path from "path";
 import { authorisation } from "./controllers/auth";
