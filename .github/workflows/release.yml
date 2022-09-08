@@ -40,8 +40,8 @@ jobs:
         with:
             envkey_DEBUG: false
             envkey_REACT_APP_SERVERLESS_URI: ${{ secrets.SERVERLESS_URL }}
-            envkey_REACT_APP_BASIC_USERNAME: ${{ secrets.BASIC_AUTH }}
-            envkey_REACT_APP_BASIC_PASSWORD: ${{ secrets.BASIC_PASSWORD }}
+            envkey_REACT_APP_BASIC_USERNAME: ${{ secrets.BASIC_PASSWORD }}
+            envkey_REACT_APP_BASIC_PASSWORD: ${{ secrets.BASIC_USERNAME }}
             directory: frontend
             file_name: .env
             fail_on_empty: true
