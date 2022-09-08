@@ -8,7 +8,7 @@
         "backend-dev": "cd backend && npm run dev",
         "frontend-dev": "cd frontend && npm start",
         "copy:frontend" : "./scripts/copy-frontend.sh",
-        "start": "cd backend && npm run build && npm start"
+        "start": "cd backend && npm start"
     },
     "devDependencies": {
         "prettier": "^2.7.1"
