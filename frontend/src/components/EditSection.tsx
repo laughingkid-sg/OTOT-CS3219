@@ -26,31 +26,26 @@ const editSection = (props: {
   updatePortfolio: UpdatePortfolio;
   supportedCoins: Coin[];
   coinName: string;
-  updateFunction: (updatePortfolioValue : UpdatePortfolio) => void
+  updateFunction: (updatePortfolioValue: UpdatePortfolio) => void;
 }) => {
-    const { updatePortfolio, supportedCoins, coinName, updateFunction} = props
+  const { updatePortfolio, supportedCoins, coinName, updateFunction } = props;
 
-    const [updatePortfolioValue, setUpdatePortfolioValue] =
-      React.useState<UpdatePortfolio>(updatePortfolio);
+  const [updatePortfolioValue, setUpdatePortfolioValue] =
+    React.useState<UpdatePortfolio>(updatePortfolio);
 
-      const updatePortfolioState = (
-        coin?: string,
-        quantity?: number,
-        price?: number,
-      ) => {
-        const temp: UpdatePortfolio = {
-              ...updatePortfolioValue,
-            }
-        if (coin) {
-          temp.coin = coin;
-        } else if (quantity) {
-          temp.quantity = quantity;
-        } else if (price) {
-          temp.purchasePrice = price;
-        }
-        setUpdatePortfolioValue(temp);
-      };
-    
+  const updatePortfolioState = (coin?: string, quantity?: number, price?: number) => {
+    const temp: UpdatePortfolio = {
+      ...updatePortfolioValue,
+    };
+    if (coin) {
+      temp.coin = coin;
+    } else if (quantity) {
+      temp.quantity = quantity;
+    } else if (price) {
+      temp.purchasePrice = price;
+    }
+    setUpdatePortfolioValue(temp);
+  };
 
   return (
     <Popover>
@@ -74,9 +69,7 @@ const editSection = (props: {
                   value: coin.id,
                 }))}
                 defaultValue={{ label: coinName, value: updatePortfolio.coin }}
-                onChange={(e) => 
-                  updatePortfolioState(e?.value)
-                }
+                onChange={(e) => updatePortfolioState(e?.value)}
               />
             </FormControl>
             <FormControl w="85%" pt="4" isRequired>
@@ -100,7 +93,7 @@ const editSection = (props: {
               <InputGroup>
                 <InputLeftAddon>$</InputLeftAddon>
                 <NumberInput
-                  onChange={(e) =>  updatePortfolioState(undefined, undefined, parseFloat(e))}
+                  onChange={(e) => updatePortfolioState(undefined, undefined, parseFloat(e))}
                   defaultValue={updatePortfolio.purchasePrice / 100}
                   min={0.01}
                   max={1000000}
@@ -116,7 +109,9 @@ const editSection = (props: {
             </FormControl>
           </PopoverBody>
           <PopoverFooter>
-            <Button colorScheme="blue" onClick={() => updateFunction(updatePortfolioValue)}>Save</Button>
+            <Button colorScheme="blue" onClick={() => updateFunction(updatePortfolioValue)}>
+              Save
+            </Button>
           </PopoverFooter>
         </PopoverContent>
       </Portal>

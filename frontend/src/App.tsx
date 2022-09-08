@@ -174,12 +174,14 @@ const App = () => {
       {
         Header: "Created Date",
         accessor: "createDate",
-        Cell: (props) => <Text>{moment(props.value).add(8, 'hours').fromNow()}</Text>,
+        Cell: (props) => <Text>{moment(props.value).add(8, "hours").fromNow()}</Text>,
       },
       {
         Header: "Last Update",
         accessor: "updateDate",
-        Cell: (props) => <Text>{moment(props.value).add(8, 'hours').local().fromNow().toString()}</Text>,
+        Cell: (props) => (
+          <Text>{moment(props.value).add(8, "hours").fromNow().toString()}</Text>
+        ),
       },
       {
         Header: "Edit",
@@ -195,8 +197,8 @@ const App = () => {
             updateFunction={updatePortfolio}
             supportedCoins={supportedCoins}
           />
-        
-        ),disableSortBy: true,
+        ),
+        disableSortBy: true,
       },
       {
         Header: "",
@@ -331,7 +333,15 @@ const App = () => {
                   </FormHelperText>
                 </FormControl>
 
-                <Text pt="2">Your average buy price is <b>{`$${(createPortfolioValue.purchasePrice / createPortfolioValue.quantity).toFixed(2)}`}.</b></Text>
+                <Text pt="2">
+                  Your average buy price is{" "}
+                  <b>
+                    {`$${(
+                      createPortfolioValue.purchasePrice / createPortfolioValue.quantity
+                    ).toFixed(2)}`}
+                    .
+                  </b>
+                </Text>
                 <Button mt={4} colorScheme="teal" type="submit" onClick={() => createPortfolio()}>
                   Submit
                 </Button>

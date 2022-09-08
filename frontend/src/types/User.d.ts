@@ -1,5 +1,5 @@
-import { Portfolio } from './Portfolio';
+import { Portfolio } from "./Portfolio";
 export type User = {
-    email: string,
+    email: string;
     portfolios: Portfolio[];
-}
+};

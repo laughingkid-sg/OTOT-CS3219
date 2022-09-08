@@ -1,4 +1,4 @@
-import { Coin } from "./Coin"
+import { Coin } from "./Coin";
 
 export type Portfolio = {
     id: string;
@@ -10,13 +10,16 @@ export type Portfolio = {
 };
 
 export type CreatePortfolio = Pick<Portfolio, "purchasePrice" | "quantity"> & {
-    coin: string
-}
+    coin: string;
+};
 
 export type UpdatePortfolio = CreatePortfolio & {
-    id: string
-}
+    id: string;
+};
 
-export type UpdatedPortfolio = Pick<Portfolio, "purchasePrice" | "quantity" | "id" | "createDate" | "updateDate"> & {
-    coinId: string,
-}
+export type UpdatedPortfolio = Pick<
+    Portfolio,
+    "purchasePrice" | "quantity" | "id" | "createDate" | "updateDate"
+> & {
+    coinId: string;
+};
