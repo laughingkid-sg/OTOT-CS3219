@@ -1,0 +1,7 @@
+build
+node_modules
+README.md
+.gitignore
+package-lock.json
+.vscode
+dist
