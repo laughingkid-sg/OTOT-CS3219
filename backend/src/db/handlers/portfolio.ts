@@ -37,7 +37,7 @@ const updatePortfolio = async (id: string, portfolio: QueryDeepPartialEntity<Por
         .update(Portfolio)
         .set(portfolio)
         .where("id = :id", { id })
-        .returning(["id", "purchasePrice", "quantity", "coin"])
+        .returning(["id", "purchasePrice", "quantity", "coin", "createDate", "updateDate"])
         .execute();
 
     return result;
