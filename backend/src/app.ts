@@ -1,11 +1,13 @@
 import express, { Express } from "express";
+import path from "path";
 import { authorisation } from "./controllers/auth";
-import { DB } from "./db";
+import { DB, simpleSeed } from "./db";
 import routes from "./routes";
 import { errorHandler } from "./utilis";
 
 DB()
     .then(() => {
+        simpleSeed();
         console.log("Data Source has been initialized!");
     })
     .catch((err) => {
@@ -17,9 +19,10 @@ const port = process.env.PORT || 8080;
 
 app.use(express.json());
 app.use(errorHandler);
+app.use(express.static(path.join(__dirname, "frontend")));
 
 app.get("/", (req, res) => {
-    res.send("ok");
+    res.sendFile(path.join(__dirname, "frontend", "index.html"));
 });
 
 app.use(authorisation);

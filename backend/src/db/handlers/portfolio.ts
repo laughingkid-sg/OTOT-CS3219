@@ -1,6 +1,5 @@
 import { QueryDeepPartialEntity } from "typeorm/query-builder/QueryPartialEntity";
-import { Portfolio, portfolioRepo, userRepo } from "..";
-import { ds } from "..";
+import { Portfolio, ds, userRepo } from "..";
 
 const createPortfolio = async (portfolio: QueryDeepPartialEntity<Portfolio>) => {
     const result = await ds
@@ -8,19 +7,12 @@ const createPortfolio = async (portfolio: QueryDeepPartialEntity<Portfolio>) => 
         .insert()
         .into(Portfolio)
         .values([portfolio])
-        .returning(["id"])
+        .returning(["id", "purchasePrice", "quantity", "coin"])
         .execute();
     return result.raw[0];
 };
 
 const getAllPortfolio = async (email: string) => {
-    // const userPorfolio = await userRepo()
-    //     .createQueryBuilder("user")
-    //     .innerJoinAndSelect("user.portfolios", "portfolios")
-    //     .select(["user.email", "portfolios"])
-    //     .where("user.email = :email", { email })
-    //     .getOne();
-
     const userPorfolio = await userRepo().findOne({
         relations: {
             portfolios: {
@@ -45,6 +37,7 @@ const updatePortfolio = async (id: string, portfolio: QueryDeepPartialEntity<Por
         .update(Portfolio)
         .set(portfolio)
         .where("id = :id", { id })
+        .returning(["id", "purchasePrice", "quantity", "coin", "createDate", "updateDate"])
         .execute();
 
     return result;
