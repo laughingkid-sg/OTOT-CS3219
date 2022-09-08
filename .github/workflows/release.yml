@@ -39,9 +39,9 @@ jobs:
         uses: SpicyPizza/create-envfile@v1.3
         with:
             envkey_DEBUG: false
-            REACT_APP_SERVERLESS_URI: ${{ secrets.SERVERLESS_URL }}
-            REACT_APP_BASIC_USERNAME: ${{ secrets.BASIC_AUTH }}
-            REACT_APP_BASIC_PASSWORD: ${{ secrets.BASIC_PASSWORD }}
+            envkey_REACT_APP_SERVERLESS_URI: ${{ secrets.SERVERLESS_URL }}
+            envkey_REACT_APP_BASIC_USERNAME: ${{ secrets.BASIC_AUTH }}
+            envkey_REACT_APP_BASIC_PASSWORD: ${{ secrets.BASIC_PASSWORD }}
             directory: frontend
             file_name: .env
             fail_on_empty: true
