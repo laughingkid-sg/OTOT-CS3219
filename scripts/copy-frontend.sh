@@ -1,5 +1,5 @@
 SRC_DIR="./frontend/build"
-OUTPUT_DIR="./backend/src/frontend"
+OUTPUT_DIR="./backend/build/frontend"
 
 echo "Found the following";
 FILES=`ls ${SRC_DIR}/*`;
