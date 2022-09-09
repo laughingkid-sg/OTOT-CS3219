@@ -154,7 +154,7 @@ const App = () => {
         accessor: "coin",
         Cell: (props) => (
           <Text>
-            <b>{props.value.name}</b> {props.value.symbol}
+            <Link href={`${coinGeckoURL}/${props.value.id}`} target="_blank"> <b>{props.value.name}</b> </Link> {props.value.symbol}
           </Text>
         ),
       },
@@ -185,7 +185,7 @@ const App = () => {
         ),
       },
       {
-        Header: "Edit",
+        Header: " ",
         accessor: (row) => (
           <EditSection
             updatePortfolio={{
@@ -247,7 +247,7 @@ const App = () => {
         <Flex h={16} alignItems="center" justifyContent="space-between">
           <Box>
             <Text fontWeight="semibold" color="white">
-              CS3219 Task C - Crypto Portfolio Tracker
+              CS3219 Task B - Crypto Portfolio Tracker
             </Text>
           </Box>
         </Flex>
@@ -421,7 +421,7 @@ const App = () => {
           <Box alignSelf="flex-start">
             <Box>
               <Heading as="h1" size="md">
-                Get all purchase
+                Get all purchases
               </Heading>
             </Box>
             <Box>
