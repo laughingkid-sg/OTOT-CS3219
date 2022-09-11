@@ -1,5 +1,4 @@
 import express, { Express } from "express";
-import path from "path";
 import { authorisation } from "./controllers/auth";
 import { DB, simpleSeed } from "./db";
 import routes from "./routes";

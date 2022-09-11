@@ -1,7 +1,6 @@
-import auth from "./auth"
 import coin from "./coin";
 import portfolio from "./portfolio";
 
-const routes = [coin, portfolio, auth];
+const routes = [coin, portfolio];
 
 export default routes;
