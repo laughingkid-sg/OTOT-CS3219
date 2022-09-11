@@ -1,4 +1,7 @@
+
 import { Request, Response, NextFunction } from "express";
+import { createUser, getPasswordHash } from "../db/handlers/User";
+import { comparePassword, hashPassword } from "../utilis";
 require("dotenv").config();
 
 const basicAuth = Buffer.from(
