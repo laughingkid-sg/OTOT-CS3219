@@ -48,9 +48,44 @@ describe("Cyrpto Coins", () => {
                 });
         });
     });
+    describe("GET /", () => {
+        it("should return 401 error", (done) => {
+            chai.request(app)
+                .get("/api/coin")
+                .auth(process.env.BASIC_USERNAME!, "")
+                .end((err, res) => {
+                    res.should.have.status(401);
+                    done();
+                });
+        });
+    });
 });
 
 describe("Portfolio", () => {
+    describe("POST /", () => {
+        it("should return 400 error", (done) => {
+            chai.request(app)
+                .post("/api/portfolio")
+                .send("")
+                .auth(process.env.BASIC_USERNAME!, process.env.BASIC_PASSWORD!)
+                .end((err, res) => {
+                    res.should.have.status(400);
+                    done();
+                });
+        });
+    });
+    describe("GET /", () => {
+        it("should get supported crypto coins", (done) => {
+            chai.request(app)
+                .get("/api/coin")
+                .auth(process.env.BASIC_USERNAME!, process.env.BASIC_PASSWORD!)
+                .end((err, res) => {
+                    res.should.have.status(200);
+                    res.body.should.be.a("array");
+                    done();
+                });
+        });
+    });
     describe("POST /", () => {
         it("should create a new record in user's porfolio", (done) => {
             chai.request(app)
@@ -140,6 +175,19 @@ describe("Portfolio", () => {
                     res.should.have.status(200);
                     res.body.should.be.a("object");
                     assert.equal(res.body.affected, 1, "One row should be deleted");
+                    done();
+                });
+        });
+    });
+
+    describe("DELETE /", () => {
+        it("should return 400", (done) => {
+            chai.request(app)
+                .delete("/api/portfolio")
+                .send({ id: 1 })
+                .auth(process.env.BASIC_USERNAME!, process.env.BASIC_PASSWORD!)
+                .end((err, res) => {
+                    res.should.have.status(500);
                     done();
                 });
         });
