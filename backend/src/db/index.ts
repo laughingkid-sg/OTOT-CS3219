@@ -3,9 +3,9 @@ import { DataSource } from "typeorm";
 require("dotenv").config();
 
 const ds = new DataSource({
-    type: "mssql",
+    type: "postgres",
     host: process.env.DATABASE_DBHOST!,
-    port: 1433,
+    port: parseInt(process.env.DATABASE_PORT!),
     username: process.env.DATABASE_USERNAME!,
     password: process.env.DATABASE_PASSWORD!,
     database: process.env.DATABASE_NAME!,

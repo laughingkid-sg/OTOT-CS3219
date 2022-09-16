@@ -1,7 +1,7 @@
-import { AppDataSource, User, userRepo } from "..";
+import { ds, User, userRepo } from "..";
 
 const createUser = async (user: User) => {
-    const res = await AppDataSource.createQueryBuilder()
+    const res = await ds.createQueryBuilder()
         .insert()
         .into(User)
         .values(user)
@@ -21,4 +21,11 @@ const getPasswordHash = async (email: string) => {
     return hashedPassword?.password;
 }
 
-export { createUser, getPasswordHash};
+const getAllUser = async () => {
+    const users : User[] = await userRepo()
+        .createQueryBuilder("user")
+        .getMany();
+    return users;
+}
+
+export { createUser, getPasswordHash, getAllUser};

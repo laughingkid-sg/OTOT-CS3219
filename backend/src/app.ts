@@ -26,7 +26,7 @@ app.get("/", (req, res) => {
 
 app.use(authorisation);
 
-routes.map((r) => {
+routes.forEach((r) => {
     app.use("/api", r);
 });
 
