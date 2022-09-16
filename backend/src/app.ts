@@ -1,10 +1,13 @@
 import express, { Express } from "express";
+import path from "path";
 import { authorisation } from "./controllers/auth";
-import { DB } from "./db";
+import { DB, simpleSeed } from "./db";
 import routes from "./routes";
+import { errorHandler } from "./utilis";
 
 DB()
     .then(() => {
+        simpleSeed();
         console.log("Data Source has been initialized!");
     })
     .catch((err) => {
@@ -15,11 +18,13 @@ const app: Express = express();
 const port = process.env.PORT || 8080;
 
 app.use(express.json());
-app.use(authorisation);
+app.use(errorHandler);
 
 app.get("/", (req, res) => {
-    res.send("ok");
+    res.send("ok")
 });
+
+app.use(authorisation);
 
 routes.map((r) => {
     app.use("/api", r);

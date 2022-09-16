@@ -17,7 +17,11 @@ const ds = new DataSource({
 });
 
 const DB = async () => {
-    return ds.initialize();
+    if (!ds.isInitialized) {
+        return ds.initialize();
+    } else {
+        return ds;
+    }
 };
 
 const userRepo = () => ds.getRepository(User);
@@ -27,3 +31,4 @@ const portfolioRepo = () => ds.getRepository(Portfolio);
 export { DB, ds, userRepo, coinRepo, portfolioRepo };
 export * from "./entities/index";
 export * from "./handlers/index";
+export * from "./seed";

@@ -16,7 +16,7 @@ export class Portfolio {
     @Column()
     purchasePrice!: number;
 
-    @Column({ type: "decimal", precision: 38, scale: 18 })
+    @Column({ type: "float"})
     quantity!: number;
 
     @ManyToOne(() => User, (user) => user.portfolios)

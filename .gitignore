@@ -102,3 +102,8 @@ dist
 
 # TernJS port file
 .tern-port
+serverless/local.settings.json
+build
+.DS_Store
+backend/src/frontend/*
+frontend/build
