@@ -1,4 +1,5 @@
 import { coinRepo, userRepo, User, Coin, ds } from "..";
+import { hashPassword } from "../../utilis";
 
 const data: Coin[] = [
     {
@@ -53,6 +54,19 @@ const data: Coin[] = [
     },
 ];
 
+const users = [
+    {
+        email: "user@cs3219.com",
+        password: "123456789",
+        role: 2
+    },
+    {
+        email: "admin@cs3219.com",
+        password: "123456789",
+        role: 0
+    }
+]
+
 const simpleSeed = async () => {
     const result = await coinRepo().find({
         select: {
@@ -66,25 +80,27 @@ const simpleSeed = async () => {
         await ds.createQueryBuilder().insert().into(Coin).values(insert).execute();
     }
 
-    const defaultUser = await userRepo().findOne({
-        select: {
-            email: true,
-        },
-        where: {
-            email: "demo@cs3219.com",
-        },
-    });
-    if (!defaultUser) {
-        await ds
-            .createQueryBuilder()
-            .insert()
-            .into(User)
-            .values({
-                email: "demo@cs3219.com",
-                password: "123456", // Stored in plain text for demo purpose
-                role: 1,
-            })
-            .execute();
+    for (const user of users) {
+        const defaultUser = await userRepo().findOne({
+            select: {
+                email: true,
+            },
+            where: {
+                email: user.email,
+            },
+        });
+        if (!defaultUser) {
+            await ds
+                .createQueryBuilder()
+                .insert()
+                .into(User)
+                .values({
+                    email: user.email,
+                    password: await hashPassword(user.password),
+                    role: user.role,
+                })
+                .execute();
+        }
     }
 };
 
