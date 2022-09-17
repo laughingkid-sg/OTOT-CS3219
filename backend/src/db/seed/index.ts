@@ -1,58 +1,6 @@
 import { coinRepo, userRepo, User, Coin, ds } from "..";
 import { hashPassword } from "../../utilis";
-
-const data: Coin[] = [
-    {
-        id: "binance-usd",
-        symbol: "BUSD",
-        name: "Binance USD",
-    },
-    {
-        id: "bitcoin",
-        symbol: "BTC",
-        name: "Bitcoin",
-    },
-    {
-        id: "bnb",
-        symbol: "BNB",
-        name: "Binance Coin",
-    },
-    {
-        id: "cardano",
-        symbol: "ADA",
-        name: "Cardano",
-    },
-    {
-        id: "ethereum",
-        symbol: "ETH",
-        name: "Ethereum",
-    },
-    {
-        id: "polkadot",
-        symbol: "DOT",
-        name: "Polkadot",
-    },
-    {
-        id: "solana",
-        symbol: "SOL",
-        name: "Solana",
-    },
-    {
-        id: "tether",
-        symbol: "USDT",
-        name: "Tether",
-    },
-    {
-        id: "usd-coin",
-        symbol: "USDC",
-        name: "USD Coin",
-    },
-    {
-        id: "xrp",
-        symbol: "XRP",
-        name: "XRP",
-    },
-];
+import fs from "fs"
 
 const users = [
     {
@@ -67,19 +15,14 @@ const users = [
     },
 ];
 
+const coins : Coin[] = JSON.parse(fs.readFileSync(__dirname + "/crypto-list.json","utf8"));
+
 const simpleSeed = async () => {
-    const result = await coinRepo().find({
-        select: {
-            id: true,
-        },
-    });
+    
+    // Seed Coin (BULK)
+    await ds.createQueryBuilder().insert().into(Coin).values(coins).orIgnore().execute();
 
-    const insert = data.filter((x) => !result.filter((y) => y.id === x.id).length);
-
-    if (data.length > 0) {
-        await ds.createQueryBuilder().insert().into(Coin).values(insert).execute();
-    }
-
+    // Seed User
     for (const user of users) {
         const defaultUser = await userRepo().findOne({
             select: {
@@ -102,6 +45,7 @@ const simpleSeed = async () => {
                 .execute();
         }
     }
+
 };
 
 export { simpleSeed };

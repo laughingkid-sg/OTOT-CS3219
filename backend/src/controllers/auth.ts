@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { createUser, getUser } from "../db/handlers/User";
+import { createUser, getUser } from "../db";
 import { comparePassword, hashPassword, unauthenticatedRoutes } from "../utilis";
 import jwt from "jsonwebtoken";
 import { JwtDecoded } from "../types/jwt";

@@ -6,6 +6,8 @@ const getAllCoins = () =>
             id: true,
             symbol: true,
             name: true,
+            createDate: true,
+            updateDate: true,
         },
     });
 
