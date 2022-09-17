@@ -36,7 +36,7 @@ const roleChecker = (allowedRoles: Role[]) => {
     };
 };
 
-const unauthenticatedRoutes = [`/api/register`, `/api/login`];
+const unauthenticatedRoutes = [`/api/register`, `/api/login`, `/api/coin`];
 
 const adminOnly: Role[] = [Role.ADMIN];
 
