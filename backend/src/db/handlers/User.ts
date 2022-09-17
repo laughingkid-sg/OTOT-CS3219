@@ -1,7 +1,14 @@
 import { ds, User, userRepo } from "..";
 
+const findUserByEmail = async (email: string) => {
+    return userRepo().findOneBy({
+        email,
+    });
+};
+
 const createUser = async (user: User) => {
-    const res = await ds.createQueryBuilder()
+    const res = await ds
+        .createQueryBuilder()
         .insert()
         .into(User)
         .values(user)
@@ -12,20 +19,25 @@ const createUser = async (user: User) => {
     return user;
 };
 
-const getPasswordHash = async (email: string) => {
-    const hashedPassword = await userRepo()
+const getUser = async (email: string) => {
+    const user = await userRepo()
         .createQueryBuilder("user")
         .where("user.email = :email", { email })
         .getOne();
 
-    return hashedPassword?.password;
-}
+    return user;
+};
 
 const getAllUser = async () => {
-    const users : User[] = await userRepo()
-        .createQueryBuilder("user")
-        .getMany();
-    return users;
-}
+    const users: User[] = await userRepo().createQueryBuilder("user").getMany();
+    return users.map((user) => {
+        return {
+            email: user.email,
+            role: user.role,
+            createDate: user.createDate,
+            updateDate: user.updateDate,
+        };
+    });
+};
 
-export { createUser, getPasswordHash, getAllUser};
+export { createUser, getUser, getAllUser, findUserByEmail };

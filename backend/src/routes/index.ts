@@ -1,4 +1,4 @@
-import auth from "./auth"
+import auth from "./auth";
 import coin from "./coin";
 import portfolio from "./portfolio";
 import user from "./user";

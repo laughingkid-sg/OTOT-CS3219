@@ -1,6 +1,5 @@
 import express, { Express } from "express";
-import path from "path";
-import { authorisation } from "./controllers/auth";
+import { authentication } from "./controllers/auth";
 import { DB, simpleSeed } from "./db";
 import routes from "./routes";
 import { errorHandler } from "./utilis";
@@ -21,10 +20,10 @@ app.use(express.json());
 app.use(errorHandler);
 
 app.get("/", (req, res) => {
-    res.send("ok")
+    res.send("ok");
 });
 
-app.use(authorisation);
+app.use(authentication);
 
 routes.forEach((r) => {
     app.use("/api", r);

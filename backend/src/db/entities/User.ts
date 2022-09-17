@@ -8,7 +8,7 @@ import {
 } from "typeorm";
 import { Portfolio } from ".";
 
-enum Role {
+export enum Role {
     ADMIN,
     DEMO_USER,
     STANDARD_USER,
@@ -19,10 +19,10 @@ export class User {
     @PrimaryColumn()
     email!: string;
 
-    @Column()
+    @Column({ nullable: false })
     password!: string;
 
-    @Column({ default: 2 })
+    @Column({ default: 2, nullable: false })
     role?: Role;
 
     @OneToMany(() => Portfolio, (portfolio) => portfolio.user)
