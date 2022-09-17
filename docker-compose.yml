@@ -6,6 +6,7 @@ services:
 
         env_file: ./backend/.env
 
+        platform: linux/amd64
         build:
             context: .
             dockerfile: Dockerfile
