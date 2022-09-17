@@ -1,6 +1,7 @@
 import express, { Express } from "express";
 import { authentication } from "./controllers/auth";
 import { DB, simpleSeed } from "./db";
+import { redisConnection } from "./redis";
 import routes from "./routes";
 import { errorHandler } from "./utilis";
 
@@ -12,6 +13,8 @@ DB()
     .catch((err) => {
         console.error("Error during Data Source initialization", err);
     });
+
+redisConnection.connect();
 
 const app: Express = express();
 const port = process.env.PORT || 8080;

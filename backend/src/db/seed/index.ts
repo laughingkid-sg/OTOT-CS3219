@@ -1,6 +1,7 @@
-import { coinRepo, userRepo, User, Coin, ds } from "..";
+import { userRepo, User, Coin, ds } from "..";
 import { hashPassword } from "../../utilis";
-import fs from "fs"
+import fs from "fs";
+import path from "path";
 
 const users = [
     {
@@ -15,10 +16,9 @@ const users = [
     },
 ];
 
-const coins : Coin[] = JSON.parse(fs.readFileSync(__dirname + "/crypto-list.json","utf8"));
+const coins: Coin[] = JSON.parse(fs.readFileSync(path.join(__dirname, "crypto-list.json"), "utf8"));
 
 const simpleSeed = async () => {
-    
     // Seed Coin (BULK)
     await ds.createQueryBuilder().insert().into(Coin).values(coins).orIgnore().execute();
 
@@ -45,7 +45,6 @@ const simpleSeed = async () => {
                 .execute();
         }
     }
-
 };
 
 export { simpleSeed };
