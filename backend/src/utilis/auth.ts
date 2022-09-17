@@ -24,8 +24,10 @@ const comparePassword = (password: string, hashed: string) => {
 
 const roleChecker = (allowedRoles: Role[]) => {
     return (req: Request, res: Response, next: NextFunction) => {
-        const userRole: Role = req.body.role;
-        const isAllowed = allowedRoles.find((allowedRole) => allowedRole === userRole);
+        const userRoles: Role[] = req.body.role;
+        const isAllowed = allowedRoles.find(
+            (allowedRole) => allowedRole === userRoles.find((userRole) => userRole === allowedRole),
+        );
         if (isAllowed !== undefined) {
             next();
         } else {

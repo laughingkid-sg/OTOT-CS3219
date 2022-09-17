@@ -22,8 +22,14 @@ export class User {
     @Column({ nullable: false })
     password!: string;
 
-    @Column({ default: 2, nullable: false })
-    role?: Role;
+    @Column({
+        type: "enum",
+        enum: Role,
+        nullable: false,
+        array: true,
+        default: "{1}",
+    })
+    role?: Role[];
 
     @OneToMany(() => Portfolio, (portfolio) => portfolio.user)
     portfolios?: Portfolio[];

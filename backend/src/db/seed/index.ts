@@ -58,14 +58,14 @@ const users = [
     {
         email: "user@cs3219.com",
         password: "123456789",
-        role: 2
+        role: 2,
     },
     {
         email: "admin@cs3219.com",
         password: "123456789",
-        role: 0
-    }
-]
+        role: 0,
+    },
+];
 
 const simpleSeed = async () => {
     const result = await coinRepo().find({
@@ -97,7 +97,7 @@ const simpleSeed = async () => {
                 .values({
                     email: user.email,
                     password: await hashPassword(user.password),
-                    role: user.role,
+                    role: [user.role],
                 })
                 .execute();
         }
