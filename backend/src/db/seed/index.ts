@@ -1,7 +1,6 @@
 import { userRepo, User, Coin, ds } from "..";
 import { hashPassword } from "../../utilis";
-import fs from "fs";
-import path from "path";
+import { coins } from "./crypto-list"
 
 const users = [
     {
@@ -16,7 +15,6 @@ const users = [
     },
 ];
 
-const coins: Coin[] = JSON.parse(fs.readFileSync(path.join(__dirname, "crypto-list.json"), "utf8"));
 
 const simpleSeed = async () => {
     // Seed Coin (BULK)
