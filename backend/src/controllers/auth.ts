@@ -14,11 +14,6 @@ const register = async (req: Request, res: Response) => {
             email: req.body.email,
             password: hashedPassword,
         });
-
-        if (!user) {
-            return res.status(200).json({ error: "User already exists" });
-        }
-
         return res.status(200).json(user);
     } catch (err) {
         return res.status(500).json({ err });

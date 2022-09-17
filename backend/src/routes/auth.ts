@@ -24,7 +24,7 @@ router.post(
 router.post(
     `/${register.name}`,
     body("email").trim().isEmail().normalizeEmail().custom(isEmailExist),
-    check("password").isLength({ min: 8 }).withMessage("must be at least 8 chars long"),
+    check("password").isLength({ min: 8 }).withMessage("must be at least 6 chars long"),
     validationResultMiddleware,
     register,
 );
